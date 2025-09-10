@@ -4,6 +4,12 @@
 
 # Unreleased
 
+# 3.3.1
+
+- Fix button load event
+- Fix item translation
+- Fix inventory confirm with kebab case 
+
 # 3.3.0
 
 - Update to gradle
