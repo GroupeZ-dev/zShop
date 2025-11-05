@@ -433,10 +433,30 @@ public class ZShopManager extends ZUtils implements ShopManager {
             LimiterManager limiterManager = this.plugin.getLimiterManager();
 
             /* SERVER LIMIT */
+            int amountToSell = itemStack.getAmount();
             if (optionalServer.isPresent()) {
                 Limit serverSellLimit = optionalServer.get();
-                newServerLimitAmount = serverSellLimit.getAmount() + itemStack.getAmount();
-                if (newServerLimitAmount > serverSellLimit.getLimit()) return;
+                int currentServerAmount = serverSellLimit.getAmount();
+                int remainingServerLimit = serverSellLimit.getLimit() - currentServerAmount;
+
+                if (remainingServerLimit <= 0) return; // No more can be sold
+
+                if (itemStack.getAmount() > remainingServerLimit) {
+                    // Can only sell part of the stack
+                    int overflow = itemStack.getAmount() - remainingServerLimit;
+                    amountToSell = remainingServerLimit;
+
+                    // Add overflow back to inventory with proper stack sizes
+                    ItemStack overflowStack = itemStack.clone();
+                    int maxStackSize = overflowStack.getType().getMaxStackSize();
+                    while (overflow > 0) {
+                        int stackAmount = Math.min(overflow, maxStackSize);
+                        overflowStack.setAmount(stackAmount);
+                        inventory.addItem(overflowStack.clone());
+                        overflow -= stackAmount;
+                    }
+                }
+                newServerLimitAmount = currentServerAmount + amountToSell;
             }
             /* END SERVER LIMIT */
 
@@ -444,8 +464,27 @@ public class ZShopManager extends ZUtils implements ShopManager {
             if (optionalPlayer.isPresent()) {
                 Limit playerSellLimit = optionalPlayer.get();
                 Optional<PlayerLimit> optional = limiterManager.getLimit(player);
-                newPlayerLimitAmount = optional.map(e -> e.getSellAmount(material)).orElse(0) + itemStack.getAmount();
-                if (newPlayerLimitAmount > playerSellLimit.getLimit()) return;
+                int currentPlayerAmount = optional.map(e -> e.getSellAmount(material)).orElse(0);
+                int remainingPlayerLimit = playerSellLimit.getLimit() - currentPlayerAmount;
+
+                if (remainingPlayerLimit <= 0) return; // No more can be sold
+
+                if (amountToSell > remainingPlayerLimit) {
+                    // Can only sell part of the stack
+                    int overflow = amountToSell - remainingPlayerLimit;
+                    amountToSell = remainingPlayerLimit;
+
+                    // Add overflow back to inventory with proper stack sizes
+                    ItemStack overflowStack = itemStack.clone();
+                    int maxStackSize = overflowStack.getType().getMaxStackSize();
+                    while (overflow > 0) {
+                        int stackAmount = Math.min(overflow, maxStackSize);
+                        overflowStack.setAmount(stackAmount);
+                        inventory.addItem(overflowStack.clone());
+                        overflow -= stackAmount;
+                    }
+                }
+                newPlayerLimitAmount = currentPlayerAmount + amountToSell;
             }
             /* END PLAYER LIMIT */
 
@@ -456,9 +495,14 @@ public class ZShopManager extends ZUtils implements ShopManager {
             /* END LIMIT VALUES */
 
             /* REMOVE ITEMS AND UPDATE MONEY */
-            prices.put(button.getEconomy(), prices.getOrDefault(button.getEconomy(), 0.0) + action.getPrice());
+            // Recalculate price based on actual amount being sold
+            double actualPrice = button.getSellPrice(player, amountToSell);
+            prices.put(button.getEconomy(), prices.getOrDefault(button.getEconomy(), 0.0) + actualPrice);
+            // Update the action price for display purposes
+            action.setPrice(actualPrice);
+            action.getItemStack().setAmount(amountToSell);
             // inventory.remove(itemStack);
-            InventoryUtils.removeItem(inventory, itemStack, itemStack.getAmount());
+            InventoryUtils.removeItem(inventory, itemStack, amountToSell);
         });
 
         if (prices.isEmpty()) {
