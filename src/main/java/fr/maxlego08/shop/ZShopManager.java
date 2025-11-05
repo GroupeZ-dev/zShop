@@ -392,7 +392,7 @@ public class ZShopManager extends ZUtils implements ShopManager {
         List<Pair<ItemStack, ItemButton>> buttons = this.itemButtons.stream().map(button -> {
             ItemStack itemStack = button.getItemStack().build(player, false);
             return new Pair<>(itemStack, button);
-        }).collect(Collectors.toList());
+        }).toList();
 
         /* SCAN ITEMS */
         for (int slot = 0; slot != inventory.getContents().length; slot++) {
@@ -400,13 +400,13 @@ public class ZShopManager extends ZUtils implements ShopManager {
             if (itemStack == null) continue;
 
             Optional<ItemButton> optional = buttons.stream().filter(e -> e.first.isSimilar(itemStack)).map(e -> e.second).findFirst();
-            if (!optional.isPresent()) continue;
+            if (optional.isEmpty()) continue;
 
             ItemButton itemButton = optional.get();
             if (!itemButton.canSell()) continue;
 
             double price = itemButton.getSellPrice(player, itemStack.getAmount());
-            ShopAction shopAction = new ShopAction(itemStack, itemButton, price);
+            ShopAction shopAction = new ShopAction(itemStack.clone(), itemButton, price);
             shopActions.add(shopAction);
         }
 
