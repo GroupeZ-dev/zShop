@@ -58,6 +58,16 @@ public enum Message {
     LOG_INFO_MESSAGE("§7%date% §8- §f%message%"),
     LOG_INFO_FOOTER("§7§m-------------------------------------"),
     LOG_INFO_NONE("§cAucune log pour le joueur §f%player%§c."),
+    DESCRIPTION_RESET_LIMIT("Reset global or player limits for items"),
+    DESCRIPTION_RESET_LIMIT_ALL("Reset all limits"),
+    DESCRIPTION_RESET_LIMIT_PLAYER("Reset player limits for an item (all items if no item specified)"),
+    DESCRIPTION_RESET_LIMIT_SERVER("Reset server limits for an item (all items if no item specified)"),
+    RESET_LIMIT_ALL_SUCCESS("§aYou have successfully reset all limits."),
+    RESET_LIMIT_NOT_FOUND("§cLimit not found for §f%item%§c."),
+    RESET_LIMIT_PLAYERS_SUCCESS("§aYou have successfully reset the player limits for all items."),
+    RESET_LIMIT_PLAYER_ITEM_SUCCESS("§aYou have successfully reset the player limits %type% for §f%item%§a."),
+    RESET_LIMIT_SERVERS_SUCCESS("§aYou have successfully reset the server limits for all items."),
+    RESET_LIMIT_SERVER_ITEM_SUCCESS("§aYou have successfully reset the server limits %type% for §f%item%§a.")
 
     ;
 
@@ -73,15 +83,13 @@ public enum Message {
     /**
      * @param message
      */
-    private Message(String message) {
+     Message(String message) {
         this.message = message;
-        this.use = true;
     }
 
     Message(String message, String messageNewVersion) {
         this.message = message;
         this.messageNewVersion = messageNewVersion;
-        this.use = true;
     }
 
     /**
@@ -91,8 +99,7 @@ public enum Message {
      * @param b
      * @param c
      */
-    private Message(String title, String subTitle, int a, int b, int c) {
-        this.use = true;
+     Message(String title, String subTitle, int a, int b, int c) {
         this.titles.put("title", title);
         this.titles.put("subtitle", subTitle);
         this.titles.put("start", a);
@@ -105,26 +112,23 @@ public enum Message {
     /**
      * @param message
      */
-    private Message(String... message) {
+    Message(String... message) {
         this.messages = Arrays.asList(message);
-        this.use = true;
     }
 
     /**
      * @param message
      */
-    private Message(MessageType type, String... message) {
+    Message(MessageType type, String... message) {
         this.messages = Arrays.asList(message);
-        this.use = true;
         this.type = type;
     }
 
     /**
      * @param message
      */
-    private Message(MessageType type, String message) {
+    Message(MessageType type, String message) {
         this.message = message;
-        this.use = true;
         this.type = type;
     }
 
@@ -132,7 +136,7 @@ public enum Message {
      * @param message
      * @param use
      */
-    private Message(String message, boolean use) {
+     Message(String message, boolean use) {
         this.message = message;
         this.use = use;
     }
