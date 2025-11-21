@@ -424,6 +424,8 @@ public class ZShopManager extends ZUtils implements ShopManager {
             ItemButton button = action.getItemButton();
             ItemStack itemStack = action.getItemStack();
 
+            int requestedAmount = itemStack.getAmount();
+            int actualSellAmount = requestedAmount; // Amount that will actually be sold
             int newServerLimitAmount = 0;
             int newPlayerLimitAmount = 0;
             String material = button.getItemStack().getMaterial();
@@ -435,8 +437,15 @@ public class ZShopManager extends ZUtils implements ShopManager {
             /* SERVER LIMIT */
             if (optionalServer.isPresent()) {
                 Limit serverSellLimit = optionalServer.get();
-                newServerLimitAmount = serverSellLimit.getAmount() + itemStack.getAmount();
-                if (newServerLimitAmount > serverSellLimit.getLimit()) return;
+                int currentServerAmount = serverSellLimit.getAmount();
+                int maxCanSell = serverSellLimit.getLimit() - currentServerAmount;
+
+                if (maxCanSell <= 0) {
+                    action.setTotalAmount(0);
+                    return;
+                }
+                actualSellAmount = Math.min(actualSellAmount, maxCanSell);
+                newServerLimitAmount = currentServerAmount + actualSellAmount;
             }
             /* END SERVER LIMIT */
 
@@ -444,10 +453,24 @@ public class ZShopManager extends ZUtils implements ShopManager {
             if (optionalPlayer.isPresent()) {
                 Limit playerSellLimit = optionalPlayer.get();
                 Optional<PlayerLimit> optional = limiterManager.getLimit(player);
-                newPlayerLimitAmount = optional.map(e -> e.getSellAmount(material)).orElse(0) + itemStack.getAmount();
-                if (newPlayerLimitAmount > playerSellLimit.getLimit()) return;
+                int currentPlayerAmount = optional.map(e -> e.getSellAmount(material)).orElse(0);
+                int maxCanSell = playerSellLimit.getLimit() - currentPlayerAmount;
+
+                if (maxCanSell <= 0) {
+                    action.setTotalAmount(0);
+                    return;
+                }
+                actualSellAmount = Math.min(actualSellAmount, maxCanSell);
+                newPlayerLimitAmount = currentPlayerAmount + actualSellAmount;
             }
             /* END PLAYER LIMIT */
+
+            if (actualSellAmount != requestedAmount) {
+                itemStack.setAmount(actualSellAmount);
+                double actualPrice = button.getSellPrice(player, actualSellAmount);
+                action.setPrice(actualPrice);
+            }
+            action.setTotalAmount(actualSellAmount);
 
             /* UPDATE LIMIT VALUES */
             if (optionalServer.isPresent()) optionalServer.get().setAmount(newServerLimitAmount);
@@ -457,8 +480,7 @@ public class ZShopManager extends ZUtils implements ShopManager {
 
             /* REMOVE ITEMS AND UPDATE MONEY */
             prices.put(button.getEconomy(), prices.getOrDefault(button.getEconomy(), 0.0) + action.getPrice());
-            // inventory.remove(itemStack);
-            InventoryUtils.removeItem(inventory, itemStack, itemStack.getAmount());
+            InventoryUtils.removeItem(inventory, itemStack, actualSellAmount);
         });
 
         if (prices.isEmpty()) {
@@ -469,23 +491,25 @@ public class ZShopManager extends ZUtils implements ShopManager {
         List<ShopAction> fixedShopActions = new ArrayList<>();
 
         shopActions.forEach(action -> {
+            if (action.getTotalAmount() == 0) return;
+
             Optional<ShopAction> optional = fixedShopActions.stream().filter(e -> e.getItemStack().isSimilar(action.getItemStack())).findFirst();
             if (optional.isPresent()) {
                 ShopAction currentAction = optional.get();
                 currentAction.setPrice(currentAction.getPrice() + action.getPrice());
-                currentAction.getItemStack().setAmount(currentAction.getItemStack().getAmount() + action.getItemStack().getAmount());
+                currentAction.addAmount(action.getTotalAmount());
             } else fixedShopActions.add(action);
         });
 
         var translationManager = this.plugin.getTranslationManager();
 
-        String results = toList(fixedShopActions.stream().map(action -> getMessage(Message.SELL_ALL_INFO, "%amount%", action.getItemStack().getAmount(), "%item%", translationManager.translateItemStack(action.getItemStack()), "%price%", action.getItemButton().getEconomy().format(transformPrice(action.getPrice()), action.getPrice()))).collect(Collectors.toList()), Message.SELL_ALL_COLOR_SEPARATOR.msg(), Message.SELL_ALL_COLOR_INFO.msg());
+        String results = toList(fixedShopActions.stream().map(action -> getMessage(Message.SELL_ALL_INFO, "%amount%", action.getTotalAmount(), "%item%", translationManager.translateItemStack(action.getItemStack()), "%price%", action.getItemButton().getEconomy().format(transformPrice(action.getPrice()), action.getPrice()))).collect(Collectors.toList()), Message.SELL_ALL_COLOR_SEPARATOR.msg(), Message.SELL_ALL_COLOR_INFO.msg());
         if (results == null) {
             Logger.info("Error with results on sellall !");
             player.sendMessage("§cError with results on sellall !");
         }
 
-        String resultsReason = toList(fixedShopActions.stream().map(action -> getMessage(Config.depositAllLine, "%amount%", action.getItemStack().getAmount(), "%item%", translationManager.translateItemStack(action.getItemStack()), "%price%", action.getItemButton().getEconomy().format(transformPrice(action.getPrice()), action.getPrice()))).collect(Collectors.toList()), "", "");
+        String resultsReason = toList(fixedShopActions.stream().map(action -> getMessage(Config.depositAllLine, "%amount%", action.getTotalAmount(), "%item%", translationManager.translateItemStack(action.getItemStack()), "%price%", action.getItemButton().getEconomy().format(transformPrice(action.getPrice()), action.getPrice()))).collect(Collectors.toList()), "", "");
         prices.forEach((economy, price) -> economy.depositMoney(player, price, Config.depositAllReason.replace("%items%", resultsReason == null ? "" : resultsReason)));
 
         message(this.plugin, player, Message.SELL_ALL_MESSAGE, "%items%", results == null ? "ERROR" : results);
@@ -510,7 +534,7 @@ public class ZShopManager extends ZUtils implements ShopManager {
     public void sellHand(Player player, int amount) {
 
         ItemStack itemInHand = player.getItemInHand(); // Use old method for 1.8 support
-        if (itemInHand == null || itemInHand.getType().equals(Material.AIR)) {
+        if (itemInHand.getType().equals(Material.AIR)) {
             message(this.plugin, player, Message.SELL_HAND_AIR);
             return;
         }
