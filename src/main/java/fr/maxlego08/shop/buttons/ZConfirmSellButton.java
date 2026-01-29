@@ -9,17 +9,16 @@ import fr.maxlego08.shop.save.Config;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 public class ZConfirmSellButton extends ConfirmationButton {
 
-    private final ShopPlugin plugin;
-
     public ZConfirmSellButton(Plugin plugin) {
-        this.plugin = (ShopPlugin) plugin;
+        super(plugin);
     }
 
     @Override
-    public void onClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot, Placeholders placeholders) {
+    public void onClick(@NotNull Player player, @NotNull InventoryClickEvent event, @NotNull InventoryEngine inventory, int slot, @NotNull Placeholders placeholders) {
         super.onClick(player, event, inventory, slot, placeholders);
 
         PlayerCache cache = this.plugin.getShopManager().getCache(player);

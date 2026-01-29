@@ -13,6 +13,7 @@ public class CommandShop extends VCommand {
         this.addSubCommand(new CommandShopReload(plugin));
         this.addSubCommand(new CommandShopLogs(plugin));
         this.addSubCommand(new CommandShopConvert(plugin));
+        this.addSubCommand(new CommandShopResetLimit(plugin));
     }
 
     @Override

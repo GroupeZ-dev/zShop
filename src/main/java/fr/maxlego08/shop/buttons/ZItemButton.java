@@ -3,6 +3,7 @@ package fr.maxlego08.shop.buttons;
 import fr.maxlego08.menu.api.MenuItemStack;
 import fr.maxlego08.menu.api.engine.InventoryEngine;
 import fr.maxlego08.menu.api.utils.MetaUpdater;
+import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.shop.ShopPlugin;
 import fr.maxlego08.shop.ZShopManager;
 import fr.maxlego08.shop.api.PriceModifier;
@@ -30,6 +31,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -489,7 +491,7 @@ public class ZItemButton extends ItemButton {
     }
 
     @Override
-    public ItemStack getCustomItemStack(Player player) {
+    public ItemStack getCustomItemStack(@NotNull Player player, @NotNull Placeholders placeholders) {
         // ItemStack itemStack = super.getCustomItemStack(player);
         ItemStack itemStack = this.getItemStack().build(player, false);
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -508,7 +510,7 @@ public class ZItemButton extends ItemButton {
     }
 
     @Override
-    public void onRightClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot) {
+    public void onRightClick(@NotNull Player player, @NotNull InventoryClickEvent event, @NotNull InventoryEngine inventory, int slot) {
         super.onRightClick(player, event, inventory, slot);
         if (canSell()) {
             this.plugin.getShopManager().openSell(player, this, this.inventorySell);
@@ -516,7 +518,7 @@ public class ZItemButton extends ItemButton {
     }
 
     @Override
-    public void onMiddleClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot) {
+    public void onMiddleClick(@NotNull Player player, @NotNull InventoryClickEvent event, @NotNull InventoryEngine inventory, int slot) {
         super.onMiddleClick(player, event, inventory, slot);
         if (canSell()) {
             sell(player, 0);
@@ -524,7 +526,7 @@ public class ZItemButton extends ItemButton {
     }
 
     @Override
-    public void onLeftClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot) {
+    public void onLeftClick(@NotNull Player player, @NotNull InventoryClickEvent event, @NotNull InventoryEngine inventory, int slot) {
         super.onLeftClick(player, event, inventory, slot);
         if (canBuy()) {
             this.plugin.getShopManager().openBuy(player, this, this.inventoryBuy);

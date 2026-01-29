@@ -4,6 +4,19 @@
 
 # Unreleased
 
+# 3.3.2
+
+- **Added**: Reset limit commands (#22)
+  - `/zshoplugin resetlimit` - Main reset commands menu
+  - `/zshoplugin resetlimit player <player> <material>` - Reset a player's limit for an item
+  - `/zshoplugin resetlimit server <material>` - Reset the server limit for an item
+  - `/zshoplugin resetlimit all` - Reset all limits
+- **Fixed**: `%buyPrice%` and `%sellPrice%` placeholders now display the total price in confirmation button lore (#18)
+- **Fixed**: Item overflow when selling
+- **Fixed**: Amount calculation when selling
+- **Fixed**: ItemStack size issue
+- **Updated**: zMenu to version 1.1.0.8
+
 # 3.3.1
 
 - Fix button load event

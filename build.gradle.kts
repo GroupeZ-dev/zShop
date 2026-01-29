@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "fr.maxlego08.shop"
-version = "3.3.1"
+version = "3.3.2"
 
 extra.set("targetFolder", file("target/"))
 extra.set("apiFolder", file("target-api/"))
@@ -47,6 +47,7 @@ allprojects {
 
     tasks.compileJava {
         options.encoding = "UTF-8"
+        options.release = 21
     }
 
     tasks.javadoc {
@@ -58,7 +59,7 @@ allprojects {
     dependencies {
         compileOnly("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
         compileOnly("me.clip:placeholderapi:2.11.6")
-        compileOnly("fr.maxlego08.menu:zmenu-api:1.1.0.0")
+        compileOnly("fr.maxlego08.menu:zmenu-api:1.1.0.8")
 
     }
 }
@@ -86,10 +87,6 @@ tasks {
 
     build {
         dependsOn(shadowJar)
-    }
-
-    compileJava {
-        options.release = 21
     }
 
     processResources {

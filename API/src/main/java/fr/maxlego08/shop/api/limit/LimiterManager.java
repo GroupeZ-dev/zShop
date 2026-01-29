@@ -9,6 +9,8 @@ public interface LimiterManager {
 
     Collection<Limit> getLimits();
 
+    Collection<Limit> getLimits(LimitType limitType);
+
     void create(Limit limit);
 
     Optional<Limit> getLimit(LimitType limitType, String material);

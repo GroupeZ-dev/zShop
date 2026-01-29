@@ -9,10 +9,14 @@ public enum Permission {
 	ZSHOP_SELL_ALL,
 	ZSHOP_SELL_HAND,
 	ZSHOP_SELL_HAND_ALL,
+	ZSHOP_RESET_LIMIT,
+    ZSHOP_RESET_LIMIT_ALL,
+    ZSHOP_RESET_LIMIT_PLAYER,
+    ZSHOP_RESET_LIMIT_SERVER
 
 	;
 
-	private String permission;
+	private final String permission;
 
 	private Permission() {
 		this.permission = this.name().toLowerCase().replace("_", ".");

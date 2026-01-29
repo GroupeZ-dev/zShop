@@ -49,3 +49,6 @@ target
 target-api
 *.java~
 *.kts~
+.claude
+CLAUDE.md
+gradle.properties
