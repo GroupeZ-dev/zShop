@@ -21,14 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class ZLimitManager extends ZUtils implements LimiterManager, Saveable, Listener {
@@ -131,7 +124,18 @@ public class ZLimitManager extends ZUtils implements LimiterManager, Saveable, L
 
     @Override
     public Collection<Limit> getLimits() {
-        return null;
+        return Collections.unmodifiableList(limits);
+    }
+
+    @Override
+    public Collection<Limit> getLimits(LimitType limitType) {
+        List<Limit> filteredLimits = new ArrayList<>();
+        for (Limit limit : limits) {
+            if (limit.getType() == limitType) {
+                filteredLimits.add(limit);
+            }
+        }
+        return Collections.unmodifiableList(filteredLimits);
     }
 
     @Override
