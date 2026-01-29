@@ -47,6 +47,7 @@ allprojects {
 
     tasks.compileJava {
         options.encoding = "UTF-8"
+        options.release = 21
     }
 
     tasks.javadoc {
@@ -86,10 +87,6 @@ tasks {
 
     build {
         dependsOn(shadowJar)
-    }
-
-    compileJava {
-        options.release = 22
     }
 
     processResources {

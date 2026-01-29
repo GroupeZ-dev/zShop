@@ -12,10 +12,8 @@ import org.bukkit.plugin.Plugin;
 
 public class ZConfirmSellButton extends ConfirmationButton {
 
-    private final ShopPlugin plugin;
-
     public ZConfirmSellButton(Plugin plugin) {
-        this.plugin = (ShopPlugin) plugin;
+        super(plugin);
     }
 
     @Override
