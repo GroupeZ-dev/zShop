@@ -51,3 +51,4 @@ target-api
 *.kts~
 .claude
 CLAUDE.md
+gradle.properties
