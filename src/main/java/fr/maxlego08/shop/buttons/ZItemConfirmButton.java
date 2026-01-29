@@ -14,6 +14,7 @@ import fr.maxlego08.shop.save.LogConfig;
 import fr.maxlego08.shop.zcore.logger.Logger;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -106,7 +107,7 @@ public class ZItemConfirmButton extends ItemConfirmButton {
     }
 
     @Override
-    public void onClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot, Placeholders placeholders) {
+    public void onClick(@NotNull Player player, @NotNull InventoryClickEvent event, @NotNull InventoryEngine inventory, int slot, Placeholders placeholders) {
         super.onClick(player, event, inventory, slot, placeholders);
         this.plugin.getShopManager().openConfirm(player, this, this.inventoryConfirm);
     }

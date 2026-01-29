@@ -9,6 +9,7 @@ import fr.maxlego08.shop.api.buttons.ShowItemButton;
 import fr.maxlego08.shop.placeholder.Placeholder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ZRemoveButton extends AddButton {
 
@@ -36,13 +37,13 @@ public class ZRemoveButton extends AddButton {
     }
 
     @Override
-    public void onClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot, Placeholders placeholders) {
+    public void onClick(@NotNull Player player, @NotNull InventoryClickEvent event, @NotNull InventoryEngine inventory, int slot, @NotNull Placeholders placeholders) {
         super.onClick(player, event, inventory, slot, placeholders);
 
         int amount = parseInt(player);
         PlayerCache cache = this.plugin.getShopManager().getCache(player);
         cache.setItemAmount(Math.max(cache.getAmount() - amount, 1));
 
-        inventory.getButtons().stream().filter(button -> button instanceof ShowItemButton).forEach(inventory::buildButton);
+        inventory.getButtons().stream().filter(button -> button instanceof ShowItemButton || button instanceof ConfirmationButton).forEach(b -> inventory.buildButton(b, placeholders));
     }
 }

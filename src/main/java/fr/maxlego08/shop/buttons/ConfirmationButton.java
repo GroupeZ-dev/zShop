@@ -56,6 +56,7 @@ public abstract class ConfirmationButton extends Button {
     }
 
     protected void action(Player player, InventoryEngine inventory, ConfirmAction confirmAction, ShopPlugin plugin, PlayerCache cache) {
+        var placeholders = new Placeholders();
         switch (confirmAction) {
             case CLOSE:
                 player.closeInventory();
@@ -71,7 +72,7 @@ public abstract class ConfirmationButton extends Button {
                 break;
             case RESET_AMOUNT:
                 cache.setItemAmount(1);
-                inventory.getButtons().stream().filter(button -> button instanceof ShowItemButton).forEach(inventory::buildButton);
+                inventory.getButtons().stream().filter(button -> button instanceof ShowItemButton).forEach(b -> inventory.buildButton(b, placeholders));
                 break;
         }
     }
@@ -81,7 +82,7 @@ public abstract class ConfirmationButton extends Button {
         super.onInventoryOpen(player, inventory, placeholders);
         List<Inventory> oldInventories = inventory.getOldInventories();
         if (!oldInventories.isEmpty()) {
-            this.inventory = oldInventories.get(oldInventories.size() - 1);
+            this.inventory = oldInventories.getLast();
         }
     }
 }

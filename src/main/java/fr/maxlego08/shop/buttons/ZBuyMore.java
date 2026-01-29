@@ -7,6 +7,7 @@ import fr.maxlego08.shop.api.buttons.BuyMore;
 import fr.maxlego08.shop.api.buttons.ItemButton;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class ZBuyMore extends BuyMore {
 
@@ -19,7 +20,7 @@ public class ZBuyMore extends BuyMore {
     }
 
     @Override
-    public void onClick(Player player, InventoryClickEvent event, InventoryEngine inventory, int slot, Placeholders placeholders) {
+    public void onClick(@NotNull Player player, @NotNull InventoryClickEvent event, @NotNull InventoryEngine inventory, int slot, @NotNull Placeholders placeholders) {
         super.onClick(player, event, inventory, slot, placeholders);
 
         ItemButton itemButton = this.plugin.getShopManager().getCache(player).getItemButton();

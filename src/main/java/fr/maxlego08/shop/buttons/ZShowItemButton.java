@@ -9,6 +9,7 @@ import fr.maxlego08.shop.placeholder.Placeholder;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ public class ZShowItemButton extends ShowItemButton {
     }
 
     @Override
-    public ItemStack getCustomItemStack(Player player, Placeholders placeholders) {
+    public ItemStack getCustomItemStack(@NotNull Player player, @NotNull Placeholders placeholders) {
 
         PlayerCache playerCache = this.plugin.getShopManager().getCache(player);
         ItemButton itemButton = playerCache.getItemButton();
