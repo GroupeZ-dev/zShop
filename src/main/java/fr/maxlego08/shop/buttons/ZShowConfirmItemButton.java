@@ -1,5 +1,6 @@
 package fr.maxlego08.shop.buttons;
 
+import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.shop.ShopPlugin;
 import fr.maxlego08.shop.api.PlayerCache;
 import fr.maxlego08.shop.api.buttons.EconomyAction;
@@ -17,12 +18,12 @@ public class ZShowConfirmItemButton extends ShowConfirmItemButton {
     }
 
     @Override
-    public ItemStack getCustomItemStack(Player player) {
+    public ItemStack getCustomItemStack(Player player, Placeholders placeholders) {
 
         PlayerCache playerCache = this.plugin.getShopManager().getCache(player);
         EconomyAction itemButton = playerCache.getEconomyAction();
-        if (itemButton == null) return super.getCustomItemStack(player);
+        if (itemButton == null) return super.getCustomItemStack(player, placeholders);
 
-        return itemButton.getCustomItemStack(player);
+        return itemButton.getCustomItemStack(player, placeholders);
     }
 }

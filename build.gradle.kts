@@ -58,7 +58,7 @@ allprojects {
     dependencies {
         compileOnly("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
         compileOnly("me.clip:placeholderapi:2.11.6")
-        compileOnly("fr.maxlego08.menu:zmenu-api:1.1.0.0")
+        compileOnly("fr.maxlego08.menu:zmenu-api:1.1.0.8")
 
     }
 }
@@ -89,7 +89,7 @@ tasks {
     }
 
     compileJava {
-        options.release = 21
+        options.release = 22
     }
 
     processResources {

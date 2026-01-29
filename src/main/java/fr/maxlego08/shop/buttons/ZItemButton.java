@@ -3,6 +3,7 @@ package fr.maxlego08.shop.buttons;
 import fr.maxlego08.menu.api.MenuItemStack;
 import fr.maxlego08.menu.api.engine.InventoryEngine;
 import fr.maxlego08.menu.api.utils.MetaUpdater;
+import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.shop.ShopPlugin;
 import fr.maxlego08.shop.ZShopManager;
 import fr.maxlego08.shop.api.PriceModifier;
@@ -489,7 +490,7 @@ public class ZItemButton extends ItemButton {
     }
 
     @Override
-    public ItemStack getCustomItemStack(Player player) {
+    public ItemStack getCustomItemStack(Player player, Placeholders placeholders) {
         // ItemStack itemStack = super.getCustomItemStack(player);
         ItemStack itemStack = this.getItemStack().build(player, false);
         ItemMeta itemMeta = itemStack.getItemMeta();

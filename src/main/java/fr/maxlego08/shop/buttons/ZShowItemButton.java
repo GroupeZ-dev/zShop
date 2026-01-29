@@ -1,5 +1,6 @@
 package fr.maxlego08.shop.buttons;
 
+import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.shop.ShopPlugin;
 import fr.maxlego08.shop.api.PlayerCache;
 import fr.maxlego08.shop.api.buttons.ItemButton;
@@ -23,13 +24,13 @@ public class ZShowItemButton extends ShowItemButton {
     }
 
     @Override
-    public ItemStack getCustomItemStack(Player player) {
+    public ItemStack getCustomItemStack(Player player, Placeholders placeholders) {
 
         PlayerCache playerCache = this.plugin.getShopManager().getCache(player);
         ItemButton itemButton = playerCache.getItemButton();
-        if (itemButton == null) return super.getCustomItemStack(player);
+        if (itemButton == null) return super.getCustomItemStack(player, placeholders);
 
-        ItemStack itemStack = itemButton.getCustomItemStack(player);
+        ItemStack itemStack = itemButton.getCustomItemStack(player, placeholders);
         itemStack.setAmount(playerCache.getAmount());
 
         ItemMeta itemMeta = itemStack.getItemMeta();
