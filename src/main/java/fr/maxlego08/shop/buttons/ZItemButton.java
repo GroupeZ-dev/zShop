@@ -491,7 +491,7 @@ public class ZItemButton extends ItemButton {
     }
 
     @Override
-    public ItemStack getCustomItemStack(@NotNull Player player, @NotNull Placeholders placeholders) {
+    public ItemStack getCustomItemStack(@NotNull Player player, boolean useCache, @NotNull Placeholders placeholders) {
         // ItemStack itemStack = super.getCustomItemStack(player);
         ItemStack itemStack = this.getItemStack().build(player, false);
         ItemMeta itemMeta = itemStack.getItemMeta();

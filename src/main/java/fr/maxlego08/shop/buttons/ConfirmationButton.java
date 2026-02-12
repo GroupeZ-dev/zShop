@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,8 +28,8 @@ public abstract class ConfirmationButton extends Button {
     }
 
     @Override
-    public ItemStack getCustomItemStack(Player player, Placeholders placeholders) {
-        ItemStack itemStack = super.getCustomItemStack(player, placeholders);
+    public ItemStack getCustomItemStack(@NotNull Player player, boolean useCache, @NotNull Placeholders placeholders) {
+        ItemStack itemStack = super.getCustomItemStack(player, useCache, placeholders);
 
         PlayerCache playerCache = this.plugin.getShopManager().getCache(player);
         ItemButton itemButton = playerCache.getItemButton();

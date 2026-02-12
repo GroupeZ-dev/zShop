@@ -19,12 +19,12 @@ public class ZShowConfirmItemButton extends ShowConfirmItemButton {
     }
 
     @Override
-    public ItemStack getCustomItemStack(@NotNull Player player, @NotNull Placeholders placeholders) {
+    public ItemStack getCustomItemStack(@NotNull Player player, boolean useCache, @NotNull Placeholders placeholders) {
 
         PlayerCache playerCache = this.plugin.getShopManager().getCache(player);
         EconomyAction itemButton = playerCache.getEconomyAction();
-        if (itemButton == null) return super.getCustomItemStack(player, placeholders);
+        if (itemButton == null) return super.getCustomItemStack(player, useCache, placeholders);
 
-        return itemButton.getCustomItemStack(player, placeholders);
+        return itemButton.getCustomItemStack(player, useCache, placeholders);
     }
 }
