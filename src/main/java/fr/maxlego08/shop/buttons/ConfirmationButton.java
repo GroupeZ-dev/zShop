@@ -51,8 +51,8 @@ public abstract class ConfirmationButton extends Button {
                 itemMeta.setLore(newLore);
                 itemStack.setItemMeta(itemMeta);
             }
-        }
 
+        }
         return itemStack;
     }
 
