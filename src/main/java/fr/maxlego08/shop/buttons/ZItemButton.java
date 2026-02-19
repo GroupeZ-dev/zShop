@@ -255,7 +255,7 @@ public class ZItemButton extends ItemButton {
         currentPrice = event.getPrice();
         /* END BUKKIT EVENT */
 
-        ItemStack itemStack = super.getItemStack().build(player, false).clone();
+        ItemStack itemStack = super.getItemStack().build(player, false, new Placeholders()).clone();
 
         var translationManager = this.plugin.getTranslationManager();
         String itemName = translationManager.translateItemStack(itemStack);
