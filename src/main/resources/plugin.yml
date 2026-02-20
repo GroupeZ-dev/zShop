@@ -3,7 +3,7 @@ author: Maxlego08
 main: fr.maxlego08.shop.ShopPlugin
 website: https://groupez.dev
 description: Shop plugin
-version: 3.3.2
+version: 3.3.3
 api-version: 1.13
 folia-supported: true
 depend:

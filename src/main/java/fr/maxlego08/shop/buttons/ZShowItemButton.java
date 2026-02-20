@@ -25,13 +25,13 @@ public class ZShowItemButton extends ShowItemButton {
     }
 
     @Override
-    public ItemStack getCustomItemStack(@NotNull Player player, @NotNull Placeholders placeholders) {
+    public ItemStack getCustomItemStack(@NotNull Player player, boolean useCache, @NotNull Placeholders placeholders) {
 
         PlayerCache playerCache = this.plugin.getShopManager().getCache(player);
         ItemButton itemButton = playerCache.getItemButton();
-        if (itemButton == null) return super.getCustomItemStack(player, placeholders);
+        if (itemButton == null) return super.getCustomItemStack(player, useCache, placeholders);
 
-        ItemStack itemStack = itemButton.getCustomItemStack(player, placeholders);
+        ItemStack itemStack = itemButton.getCustomItemStack(player, useCache, placeholders);
         itemStack.setAmount(playerCache.getAmount());
 
         ItemMeta itemMeta = itemStack.getItemMeta();

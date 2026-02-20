@@ -4,6 +4,10 @@
 
 # Unreleased
 
+# 3.3.3
+
+- **Fixed**: zMenu version
+
 # 3.3.2
 
 - **Added**: Reset limit commands (#22)
