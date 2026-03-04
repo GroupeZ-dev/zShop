@@ -1,5 +1,6 @@
 package fr.maxlego08.shop.buttons;
 
+import fr.maxlego08.menu.api.utils.LoreType;
 import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.shop.ShopPlugin;
 import fr.maxlego08.shop.api.PlayerCache;
@@ -47,7 +48,7 @@ public class ZShowItemButton extends ShowItemButton {
             return Placeholder.getPlaceholder().setPlaceholders(player, line);
         }).collect(Collectors.toList());
 
-        this.plugin.getIManager().getMeta().updateLore(itemMeta, itemLore, player);
+        this.plugin.getIManager().getMeta().updateLore(itemMeta, itemLore, LoreType.APPEND);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }

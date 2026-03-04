@@ -29,31 +29,19 @@ public abstract class ConfirmationButton extends Button {
 
     @Override
     public ItemStack getCustomItemStack(@NotNull Player player, boolean useCache, @NotNull Placeholders placeholders) {
-        ItemStack itemStack = super.getCustomItemStack(player, useCache, placeholders);
 
         PlayerCache playerCache = this.plugin.getShopManager().getCache(player);
         ItemButton itemButton = playerCache.getItemButton();
-        if (itemButton == null) return itemStack;
+        if (itemButton == null) return super.getCustomItemStack(player, useCache, placeholders);
 
         int amount = playerCache.getAmount();
         String sellPrice = itemButton.getSellPriceFormat(player, amount);
         String buyPrice = itemButton.getBuyPriceFormat(player, amount);
 
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta != null && itemMeta.hasLore()) {
-            List<String> lore = itemMeta.getLore();
-            if (lore != null) {
-                List<String> newLore = lore.stream().map(line -> {
-                    line = line.replace("%sellPrice%", sellPrice);
-                    line = line.replace("%buyPrice%", buyPrice);
-                    return line;
-                }).collect(Collectors.toList());
-                itemMeta.setLore(newLore);
-                itemStack.setItemMeta(itemMeta);
-            }
+        placeholders.register("sellPrice", sellPrice);
+        placeholders.register("buyPrice", buyPrice);
 
-        }
-        return itemStack;
+        return super.getCustomItemStack(player, useCache, placeholders);
     }
 
     protected void action(Player player, InventoryEngine inventory, ConfirmAction confirmAction, ShopPlugin plugin, PlayerCache cache) {

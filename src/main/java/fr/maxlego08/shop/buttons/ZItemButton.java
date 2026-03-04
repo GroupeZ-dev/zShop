@@ -2,6 +2,7 @@ package fr.maxlego08.shop.buttons;
 
 import fr.maxlego08.menu.api.MenuItemStack;
 import fr.maxlego08.menu.api.engine.InventoryEngine;
+import fr.maxlego08.menu.api.utils.LoreType;
 import fr.maxlego08.menu.api.utils.MetaUpdater;
 import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.shop.ShopPlugin;
@@ -503,7 +504,7 @@ public class ZItemButton extends ItemButton {
         }
 
         MetaUpdater metaUpdater = plugin.getIManager().getMeta();
-        metaUpdater.updateLore(itemMeta, buildLore(player), player);
+        metaUpdater.updateLore(itemMeta, buildLore(player), LoreType.APPEND);
 
         itemStack.setItemMeta(itemMeta);
         return itemStack;
@@ -537,11 +538,11 @@ public class ZItemButton extends ItemButton {
     public List<String> buildLore(Player player) {
 
         MenuItemStack menuItemStack = this.getItemStack();
+        if (menuItemStack == null) return new ArrayList<>();
+
         int amount = menuItemStack.parseAmount(player);
 
         List<String> itemLore = new ArrayList<>();
-        if (menuItemStack.getLore() != null && !menuItemStack.getLore().isEmpty())
-            itemLore = new ArrayList<>(menuItemStack.getLore());
 
         String sellPrice = getSellPriceFormat(player, amount);
         String buyPrice = getBuyPriceFormat(player, amount);
