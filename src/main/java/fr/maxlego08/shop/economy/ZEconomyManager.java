@@ -78,7 +78,7 @@ public class ZEconomyManager implements EconomyManager {
                         var itemStack = this.plugin.getIManager().loadItemStack(configuration, path + "item.", file);
                         yield new ZMenuItemProvider(plugin, itemStack);
                     }
-                    case ZESSENTIALS, ECOBITS, COINSENGINE, REDISECONOMY -> {
+                    case ZESSENTIALS, ECOBITS, COINSENGINE, REDISECONOMY, EXCELLENTEECONOMY -> {
                         String currencyName = configuration.getString(path + "currencyName", configuration.getString(path + "currency-name"));
                         yield currencies.createProvider(currencyName);
                     }
