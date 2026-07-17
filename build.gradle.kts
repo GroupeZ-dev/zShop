@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.invoke
 
 plugins {
     `java-library`
-    id("com.gradleup.shadow") version "9.0.0-beta11"
+    id("com.gradleup.shadow") version "9.0.0"
     id("re.alwyn974.groupez.repository") version "1.0.0"
 }
 
@@ -27,6 +27,7 @@ allprojects {
         mavenCentral()
 
         maven(url = "https://jitpack.io")
+        maven(url = "https://repo.papermc.io/repository/maven-public/")
         maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi/")
         maven(url = "https://libraries.minecraft.net/")
@@ -34,6 +35,9 @@ allprojects {
     }
 
     java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(25)
+        }
         withSourcesJar()
         withJavadocJar()
     }
@@ -47,7 +51,7 @@ allprojects {
 
     tasks.compileJava {
         options.encoding = "UTF-8"
-        options.release = 21
+        options.release = 25
     }
 
     tasks.javadoc {
@@ -57,9 +61,9 @@ allprojects {
     }
 
     dependencies {
-        compileOnly("org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT")
+        compileOnly("io.papermc.paper:paper-api:26.2.build.62-beta")
         compileOnly("me.clip:placeholderapi:2.11.6")
-        compileOnly("fr.maxlego08.menu:zmenu-api:1.1.1.2")
+        compileOnly("fr.maxlego08.menu:zmenu-api:1.1.1.6")
         implementation("fr.traqueur.currencies:currenciesapi:1.0.13")
     }
 }
