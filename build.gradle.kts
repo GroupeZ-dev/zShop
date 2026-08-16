@@ -64,7 +64,7 @@ allprojects {
         compileOnly("io.papermc.paper:paper-api:26.2.build.62-beta")
         compileOnly("me.clip:placeholderapi:2.11.6")
         compileOnly("fr.maxlego08.menu:zmenu-api:1.1.1.6")
-        implementation("fr.traqueur.currencies:currenciesapi:1.0.13")
+        implementation("fr.traqueur.currencies:currenciesapi:1.0.14")
     }
 }
 
