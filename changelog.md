@@ -4,6 +4,8 @@
 
 # Unreleased
 
+# 3.3.5
+
 - **Updated**: [CurrenciesAPI](https://github.com/GroupeZ-dev/CurrenciesAPI) to version 1.0.14. The ExcellentEconomy type is renamed from `EXCELLENTEECONOMY` to `EXCELLENTECONOMY`; both spellings are accepted in `economies.yml`, the old one is deprecated
 
 # 3.3.4
