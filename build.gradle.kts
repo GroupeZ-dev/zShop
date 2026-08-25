@@ -32,6 +32,10 @@ allprojects {
         maven(url = "https://repo.extendedclip.com/content/repositories/placeholderapi/")
         maven(url = "https://libraries.minecraft.net/")
         maven(url = "https://repo.groupez.dev/releases")
+        maven {
+            name = "faststatsReleases"
+            url = uri("https://repo.faststats.dev/releases")
+        }
     }
 
     java {
@@ -74,6 +78,7 @@ repositories {
 
 dependencies {
     api(projects.api)
+    implementation("dev.faststats.metrics:bukkit:0.29.4")
     // api(projects.hooks)
 
 }
@@ -82,6 +87,7 @@ tasks {
     shadowJar {
 
         relocate("fr.traqueur.currencies", "fr.maxlego08.zshop.libs.currencies")
+        relocate("dev.faststats", "fr.maxlego08.zshop.libs.faststats")
 
         rootProject.extra.properties["sha"]?.let { sha ->
             archiveClassifier.set("${rootProject.extra.properties["classifier"]}-${sha}")
