@@ -43,7 +43,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.ServicesManager;
-
+import dev.faststats.bukkit.BukkitContext;
 /**
  * System to create your plugins very simply Projet:
  * <a href="https://github.com/Maxlego08/TemplatePlugin">https://github.com/Maxlego08/TemplatePlugin</a>
@@ -63,6 +63,9 @@ public class ShopPlugin extends ZPlugin {
     private PatternManager patternManager;
     private ButtonManager buttonManager;
     private boolean isLoad = false;
+    private final BukkitContext context = new BukkitContext.Factory(this, "ccfaa9ae0f7e0df979de73a0c8cb61a2")
+            .metrics(dev.faststats.Metrics.Factory::create)
+            .create();
 
     private String transformNumberToString(int number) {
         String numberStr = String.valueOf(number);
@@ -138,6 +141,7 @@ public class ShopPlugin extends ZPlugin {
         this.shopManager.loadConfig();
 
         new Metrics(this, 5881);
+        context.ready();
 
         this.limitManager.registerPlaceholders();
         this.shopManager.registerPlaceholders();
@@ -170,6 +174,7 @@ public class ShopPlugin extends ZPlugin {
             this.saveFiles();
         }
 
+        context.shutdown();
         this.postDisable();
     }
 
