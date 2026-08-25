@@ -51,6 +51,7 @@ allprojects {
         archiveBaseName.set("zShop")
         archiveAppendix.set(if (project.path == ":") "" else project.name)
         archiveClassifier.set("")
+        duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.EXCLUDE
     }
 
     tasks.compileJava {
