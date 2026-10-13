@@ -4,6 +4,10 @@
 
 # Unreleased
 
+# 3.3.7
+
+- **Fixed**: Selling no longer fails with recent zMenu versions. The shop item is cloned before its lore is added, so zMenu's cached item and anti-dupe tag no longer leak into the item used for selling (#25)
+
 # 3.3.6
 
 - Added faststats metrics

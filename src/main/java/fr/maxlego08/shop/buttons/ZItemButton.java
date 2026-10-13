@@ -304,7 +304,7 @@ public class ZItemButton extends ItemButton {
     public void sell(Player player, int amount) {
         ZShopManager manager = (ZShopManager) this.plugin.getShopManager();
 
-        ItemStack itemStack = getItemStack().build(player, false);
+        ItemStack itemStack = getItemStack().build(player, false).clone();
         int items = 0;
 
         for (int a = 0; a != 36; a++) {
@@ -493,8 +493,8 @@ public class ZItemButton extends ItemButton {
 
     @Override
     public ItemStack getCustomItemStack(@NotNull Player player, boolean useCache, @NotNull Placeholders placeholders) {
-        // ItemStack itemStack = super.getCustomItemStack(player);
-        ItemStack itemStack = this.getItemStack().build(player, false);
+        // On clone l'item, sinon le lore et le PDC anti-dupe de zMenu modifient l'item mis en cache et la vente ne le reconnaît plus
+        ItemStack itemStack = this.getItemStack().build(player, false).clone();
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         if (Config.disableItemFlag) {
