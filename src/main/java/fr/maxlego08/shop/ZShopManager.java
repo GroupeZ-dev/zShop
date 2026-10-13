@@ -370,7 +370,7 @@ public class ZShopManager extends ZUtils implements ShopManager {
 
     @Override
     public Optional<ItemButton> getItemButton(Player player, ItemStack itemStack) {
-        return this.itemButtons.stream().filter(button -> button.getItemStack().build(player, false).isSimilar(itemStack)).findFirst();
+        return this.itemButtons.stream().filter(button -> button.getItemStack().build(player, false).clone().isSimilar(itemStack)).findFirst();
     }
 
     @Override
@@ -390,7 +390,7 @@ public class ZShopManager extends ZUtils implements ShopManager {
 
         List<ShopAction> shopActions = new ArrayList<>();
         List<Pair<ItemStack, ItemButton>> buttons = this.itemButtons.stream().map(button -> {
-            ItemStack itemStack = button.getItemStack().build(player, false);
+            ItemStack itemStack = button.getItemStack().build(player, false).clone();
             return new Pair<>(itemStack, button);
         }).toList();
 
